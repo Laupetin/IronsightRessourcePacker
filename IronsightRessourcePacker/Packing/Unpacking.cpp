@@ -40,8 +40,10 @@ namespace IronsightRessourcePacker
 
 			Print("Unpacking RessourcePackage '%s'\n", inputFilename);
 			package.DumpAll(outputPath);
+
+			return true;
 		}
 
-		return true;
+		return false;
 	}
 }

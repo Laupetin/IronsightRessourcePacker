@@ -32,13 +32,15 @@ namespace IronsightRessourcePacker
 	class RessourcePackage
 	{
 	private:
-		std::vector<RessourcePackageEntry> entries;
-		char basepath[128];
 		FILE* fp;
 
 	public:
+		char basepath[128];
+		std::vector<RessourcePackageEntry> entries;
+
 		bool Open(FILE* fp);
 		bool DumpAll(char* outputBasePath);
+		bool Save(FILE* fp, char* inputBasePath);
 	};
 }
 

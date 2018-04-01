@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "RessourcePackage.h"
 #include "AssetUnpacker.h"
+#include "AssetPacker.h"
 
 namespace IronsightRessourcePacker
 {
@@ -86,5 +87,51 @@ namespace IronsightRessourcePacker
 		Print("%u / %u\n", entryCount, entryCount);
 
 		return true;
+	}
+
+	bool RessourcePackage::Save(FILE* fp_out, char* inputBasePath)
+	{
+		FILE* fp_in;
+		char inputFilenameBuffer[MAX_PATH];
+		RessourcePackageHeader header;
+		uint32_t currentFileOffset;
+
+		header.magic = 'GKPR';
+		header.version = 1;
+		strncpy(header.packageBasePath, this->basepath, sizeof(RessourcePackageHeader::packageBasePath));
+		header.numEntries = this->entries.size();
+
+		currentFileOffset = 0;
+		currentFileOffset += fwrite(&header, 1, sizeof(header), fp_out);
+
+		fseek(fp_out, sizeof(RessourcePackageEntry) * header.numEntries, SEEK_CUR);
+		currentFileOffset += (sizeof(RessourcePackageEntry) * header.numEntries);
+
+		for (auto& entry : this->entries)
+		{
+			sprintf_s(inputFilenameBuffer, "%s\\%s", inputBasePath, entry.filename);
+
+			if (fopen_s(&fp_in, inputFilenameBuffer, "rb") == 0)
+			{
+				uint32_t assetLength;
+				entry.offsetInPackage = currentFileOffset;
+
+				PackAsset(fp_in, fp_out, &assetLength, entry.flags);
+
+				entry.sizeInPackage = assetLength;
+				currentFileOffset += assetLength;
+
+				fclose(fp_in);
+			}
+		}
+
+		fseek(fp_out, sizeof(RessourcePackageHeader), SEEK_SET);
+
+		for (auto entry : this->entries)
+		{
+			fwrite(&entry, 1, sizeof(RessourcePackageEntry), fp_out);
+		}
+
+		return false;
 	}
 }
