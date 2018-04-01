@@ -4,7 +4,7 @@
 #include "Crypto\CryptorSeedCBC.h"
 #include <zlib\deflate.h>
 
-namespace IronsightUnpacker
+namespace IronsightRessourcePacker
 {
 	uint8_t SEED_Key[]{
 		0x88, 0xE3, 0x4F, 0x8F,

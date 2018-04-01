@@ -2,7 +2,7 @@
 #include "RessourcePackage.h"
 #include "AssetUnpacker.h"
 
-namespace IronsightUnpacker
+namespace IronsightRessourcePacker
 {
 	bool RessourcePackage::Open(FILE* fp)
 	{
@@ -65,7 +65,7 @@ namespace IronsightUnpacker
 
 			sprintf_s(outputFilePath, "%s\\%s", outputBasePath, entry.filename);
 
-			CreateFoldersForPath(outputBasePath, entry.filename);
+			Utils::CreateFoldersForPath(outputBasePath, entry.filename);
 
 			if (fopen_s(&fp_out, outputFilePath, "wb") == 0)
 			{

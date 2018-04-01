@@ -5,7 +5,7 @@
 
 #include "RessourcePackage.h"
 
-namespace IronsightUnpacker
+namespace IronsightRessourcePacker
 {
 	bool UnpackAsset(FILE* fp_in, FILE* fp_out, uint32_t length, RessourcePackageFlags flags);
 }

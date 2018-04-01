@@ -6,7 +6,7 @@
 #include <tomcrypt.h>
 #include <stdint.h>
 
-namespace IronsightUnpacker
+namespace IronsightRessourcePacker
 {
 	namespace Crypto
 	{

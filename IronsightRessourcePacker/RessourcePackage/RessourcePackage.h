@@ -5,7 +5,7 @@
 
 #include <stdint.h>
 
-namespace IronsightUnpacker
+namespace IronsightRessourcePacker
 {
 	enum RessourcePackageFlags : uint32_t
 	{

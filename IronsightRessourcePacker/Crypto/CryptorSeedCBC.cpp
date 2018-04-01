@@ -2,7 +2,7 @@
 #include "CryptorSeedCBC.h"
 
 
-namespace IronsightUnpacker
+namespace IronsightRessourcePacker
 {
 	namespace Crypto
 	{

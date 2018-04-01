@@ -7,6 +7,7 @@
 #include <stdint.h>
 #include <string>
 #include <map>
+#include <unordered_map>
 #include <vector>
 #include <stack>
 #include <assert.h>

@@ -22,8 +22,9 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{216C4ABC-5249-4FFC-B7F1-1AC52720FF22}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>IronsightUnpacker</RootNamespace>
+    <RootNamespace>IronsightRessourcePacker</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <ProjectName>IronsightRessourcePacker</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -162,13 +163,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Packing\Packing.cpp" />
+    <ClCompile Include="Packing\Unpacking.cpp" />
+    <ClCompile Include="RessourcePackage\AssetPacker.cpp" />
     <ClCompile Include="RessourcePackage\AssetUnpacker.cpp" />
     <ClCompile Include="Crypto\CryptorSeedCBC.cpp" />
-    <ClCompile Include="IronsightUnpacker.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="RessourcePackage\RessourcePackage.cpp" />
     <ClCompile Include="Utils\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Packing\Packing.h" />
+    <ClInclude Include="Packing\Unpacking.h" />
+    <ClInclude Include="RessourcePackage\AssetPacker.h" />
     <ClInclude Include="RessourcePackage\AssetUnpacker.h" />
     <ClInclude Include="Crypto\CryptorSeedCBC.h" />
     <ClInclude Include="GitVersion.h" />
