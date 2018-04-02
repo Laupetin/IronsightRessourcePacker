@@ -138,7 +138,7 @@ namespace IronsightRessourcePacker
 		strcat_s(outputPath, packageName);
 		strcat_s(outputPath, ".wpg");
 
-		if (fopen_s(&fp_out, outputPath, "wb") == 0)
+		if (fopen_s(&fp_out, outputPath, "wb+") == 0)
 		{
 			package.Save(fp_out, folderpath);
 

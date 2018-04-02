@@ -1,33 +1,19 @@
 #include "stdafx.h"
 #include "AssetUnpacker.h"
 
+#include "RessourcePackage.h"
+
 #include "Crypto\CryptorSeedCBC.h"
 #include <zlib\deflate.h>
 
 namespace IronsightRessourcePacker
 {
-	uint8_t SEED_Key[]{
-		0x88, 0xE3, 0x4F, 0x8F,
-		0x08, 0x17, 0x79, 0xF1,
-		0xE9, 0xF3, 0x94, 0x37,
-		0x0A, 0xD4, 0x05, 0x89,
-	};
-
-	uint8_t SEED_IV[]{
-		0x26, 0x8D, 0x66, 0xA7,
-		0x35, 0xA8, 0x1A, 0x81,
-		0x6F, 0xBA, 0xD9, 0xFA,
-		0x36, 0x16, 0x25, 0x01
-	};
-
-#define CHUNK 16384
-
 	bool UnpackAsset(FILE* fp_in, FILE* fp_out, uint32_t length, RessourcePackageFlags flags)
 	{
-		unsigned char in[CHUNK];
-		unsigned char out[CHUNK];
-		unsigned outputSize;
-		z_stream strm;
+		uint8_t in[CHUNK];
+		uint8_t out[CHUNK];
+		uint32_t outputSize;
+		z_stream_s strm;
 		int ret;
 		uint32_t fileProgress;
 		uint32_t compressedProgress;
@@ -35,8 +21,6 @@ namespace IronsightRessourcePacker
 		uint32_t readSize;
 		uint32_t decryptedSize;
 		uint32_t decompressedSize;
-
-		assert(Crypto::CryptorSeedCBC::IVSize == sizeof(SEED_IV));
 
 		fileProgress = 0;
 		decompressedSize = 0;
@@ -51,7 +35,7 @@ namespace IronsightRessourcePacker
 		}
 		compressedProgress = 0;
 
-		Crypto::CryptorSeedCBC cryptor(SEED_Key, sizeof(SEED_Key), SEED_IV);
+		Crypto::CryptorSeedCBC cryptor(SEED_Key, 16, SEED_IV);
 
 		/* allocate inflate state */
 		strm.zalloc = Z_NULL;
@@ -70,7 +54,7 @@ namespace IronsightRessourcePacker
 				sizeToRead = CHUNK;
 
 			if (sizeToRead == 0)
-				return false; // We cannot read anymore but the zstream is not finished yet.. incomplete compression.
+				break;
 
 			readSize = fread(in, 1, sizeToRead, fp_in);
 			fileProgress += readSize;
@@ -98,6 +82,7 @@ namespace IronsightRessourcePacker
 				}
 				else
 				{
+					strm.next_in = in;
 					decompressedSize = decryptedSize;
 				}
 			}
@@ -135,7 +120,7 @@ namespace IronsightRessourcePacker
 			}
 			else
 			{
-				if (fwrite(out, 1, strm.avail_in, fp_out) != strm.avail_in)
+				if (fwrite(strm.next_in, 1, strm.avail_in, fp_out) != strm.avail_in)
 				{
 					inflateEnd(&strm);
 					return false;

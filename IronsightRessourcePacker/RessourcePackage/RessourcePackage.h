@@ -7,6 +7,8 @@
 
 namespace IronsightRessourcePacker
 {
+#define CHUNK 16384
+
 	enum RessourcePackageFlags : uint32_t
 	{
 		FLAG_COMPRESSED = 1 << 0,
@@ -28,6 +30,9 @@ namespace IronsightRessourcePacker
 		uint32_t sizeInPackage;
 		RessourcePackageFlags flags;
 	};
+
+	extern uint8_t SEED_Key[];
+	extern uint8_t SEED_IV[];
 
 	class RessourcePackage
 	{
