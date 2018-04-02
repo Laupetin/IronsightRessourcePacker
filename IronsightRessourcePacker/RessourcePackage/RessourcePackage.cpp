@@ -109,6 +109,8 @@ namespace IronsightRessourcePacker
 		char inputFilenameBuffer[MAX_PATH];
 		RessourcePackageHeader header;
 		uint32_t currentFileOffset;
+		int currentEntry = 0;
+		int entryCount = this->entries.size();
 
 		header.magic = 'GKPR';
 		header.version = 1;
@@ -123,6 +125,7 @@ namespace IronsightRessourcePacker
 
 		for (auto& entry : this->entries)
 		{
+			std::cout << (currentEntry) << " / " << (entryCount) << '\r';
 			sprintf_s(inputFilenameBuffer, "%s\\%s", inputBasePath, entry.filename);
 
 			if (fopen_s(&fp_in, inputFilenameBuffer, "rb") == 0)
@@ -137,7 +140,9 @@ namespace IronsightRessourcePacker
 
 				fclose(fp_in);
 			}
+			currentEntry++;
 		}
+		Print("%u / %u\n", entryCount, entryCount);
 
 		fseek(fp_out, sizeof(RessourcePackageHeader), SEEK_SET);
 

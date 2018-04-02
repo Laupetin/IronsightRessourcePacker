@@ -131,8 +131,6 @@ namespace IronsightRessourcePacker
 
 		strncpy_s(package.basepath, firstFile, commonPathLength);
 
-		Print("Basepath: '%s'\n", package.basepath);
-
 		strncpy_s(outputPath, folderpath, MAX_PATH);
 		Utils::StripFilename(outputPath);
 		strcat_s(outputPath, packageName);
@@ -140,6 +138,7 @@ namespace IronsightRessourcePacker
 
 		if (fopen_s(&fp_out, outputPath, "wb+") == 0)
 		{
+			Print("Packing RessourcePackage '%s'\n", packageName);
 			package.Save(fp_out, folderpath);
 
 			fclose(fp_out);
